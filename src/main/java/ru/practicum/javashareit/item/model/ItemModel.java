@@ -1,6 +1,7 @@
 package ru.practicum.javashareit.item.model;
 
 import lombok.*;
+import ru.practicum.javashareit.user.model.UserModel;
 
 @Getter
 @Setter
@@ -16,5 +17,9 @@ public class ItemModel {
     private String description;
 
     private Boolean available;
+
+    private UserModel owner;
+
+    //private ItemRequest request;
 
 }
