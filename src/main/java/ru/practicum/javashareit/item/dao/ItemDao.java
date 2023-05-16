@@ -16,7 +16,12 @@ public class ItemDao {
 
     private final String ITEM_SELECT_BY_ID_QUERY = "select * from items where id = ?";
     private final String ITEM_SELECT_ALL_QUERY = "select * from items";
-    private final String ITEM_INSERT = "insert into items(name, description, available) values (?, ?, ?)";
+    private final String ITEM_INSERT = "insert into items(name, description, available, owner) values (?, ?, ?, ?)";
+
+    private final String ITEM_UPDATE = "update items " +
+                                       "set name = ?, set description = ?, set available = ?, set owner = ?" +
+                                       "where id = ?";
+    private final String ITEM_DELETE = "delete from items where id = ?";
 
     public ItemDao(Connection connection) {
         this.connection = connection;
@@ -54,17 +59,26 @@ public class ItemDao {
     //заготовка для сохранения элемента в базе
     public void saveItemInDatabase(ItemModel itemModel) throws SQLException{
         PreparedStatement selectQuery = connection.prepareStatement(ITEM_INSERT);
-        ResultSet resultSet = selectQuery.executeQuery();
-        
+        selectQuery.setString(1, itemModel.getName());
+        selectQuery.setString(2, itemModel.getDescription());
+        selectQuery.setBoolean(3, itemModel.getAvailable());
+        selectQuery.setObject(4, itemModel.getOwner());
+        selectQuery.executeUpdate();
     }
 
     //заготовка для внесения изменения в элемент в базе
-    public void updateItemInDatabase(ItemModel itemModel) {
-
+    public void updateItemInDatabase(ItemModel itemModel)  throws SQLException{
+        PreparedStatement selectQuery = connection.prepareStatement(ITEM_UPDATE);
+        selectQuery.setString(1, itemModel.getName());
+        selectQuery.setString(2, itemModel.getDescription());
+        selectQuery.setBoolean(3, itemModel.getAvailable());
+        selectQuery.setObject(4, itemModel.getOwner());
+        selectQuery.executeUpdate();
     }
 
     //заготовка для внесения изменения в элемент в базе
-    public void deleteItemFromDatabase(final Long id) {
-
+    public void deleteItemFromDatabase(final Long id) throws SQLException{
+        PreparedStatement selectQuery = connection.prepareStatement(ITEM_DELETE);
+        selectQuery.execute();
     }
 }

@@ -17,6 +17,12 @@ public class UserDao {
 
     private final String USER_SELECT_BY_ID_QUERY = "select * from users where id = ?";
     private final String USER_SELECT_ALL_QUERY = "select * from users";
+    private final String USER_INSERT = "insert into users(name, email) values (?, ?)";
+
+    private final String USER_UPDATE = "update users " +
+            "set name = ?, set email = ?" +
+            "where id = ?";
+    private final String USER_DELETE = "delete from users where id = ?";
 
     public UserDao(Connection connection) {
         this.connection = connection;
@@ -52,17 +58,24 @@ public class UserDao {
     }
 
     //заготовка для сохранения юзера в базе
-    public void saveUserInDatabase(UserModel userModel){
-
+    public void saveUserInDatabase(UserModel userModel) throws SQLException{
+        PreparedStatement selectQuery = connection.prepareStatement(USER_INSERT);
+        selectQuery.setString(1, userModel.getName());
+        selectQuery.setString(2, userModel.getEmail());
+        selectQuery.executeUpdate();
     }
 
     //заготовка для внесения изменения в юзера в базе
-    public void updateUserInDatabase(UserModel userModel){
-
+    public void updateUserInDatabase(UserModel userModel) throws SQLException{
+        PreparedStatement selectQuery = connection.prepareStatement(USER_UPDATE);
+        selectQuery.setString(1, userModel.getName());
+        selectQuery.setString(2, userModel.getEmail());
+        selectQuery.executeUpdate();
     }
 
     //заготовка для внесения изменения в юзера в базе
-    public void deleteUserFromDatabase(final Long id){
-
+    public void deleteUserFromDatabase(final Long id) throws SQLException{
+        PreparedStatement selectQuery = connection.prepareStatement(USER_DELETE);
+        selectQuery.execute();
     }
 }
