@@ -2,6 +2,9 @@ package ru.practicum.javashareit.user.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ru.practicum.javashareit.request.model.ItemRequest;
+
+import java.util.List;
 
 @Entity //обозначение сущности в JPA
 //настройка наименования таблицы
@@ -29,4 +32,10 @@ public class UserModel {
     private String email;
     @Column(name = "login", nullable = false) //выставляем имя колонки и запрет вносить нулевое значение
     private String login;
+
+    //получение инструментов юзера по ссылке на таблицу item
+    //колонка не добавляется в базу
+    //это делается для связи и получения в коде списка инструментов пользователя
+    @OneToMany(mappedBy = "requesterUser")
+    private List<ItemRequest>  items;
 }
