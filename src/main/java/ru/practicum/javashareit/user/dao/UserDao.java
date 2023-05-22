@@ -29,18 +29,12 @@ public class UserDao {
     }
 
     public UserModel findItemById(final Long id) throws SQLException {
-            if (connection != null){
-                System.out.println("мы подключились к бд");
-            } else {
-                System.out.println("БД не доступна");
-            }
             PreparedStatement selectQuery  = connection.prepareStatement(USER_SELECT_BY_ID_QUERY);
             selectQuery.setLong(1, id);
             ResultSet resultSet = selectQuery.executeQuery();
             UserModel userModel = new UserModel();
             userModel.setName(resultSet.getString("name"));
             userModel.setEmail(resultSet.getString("email"));
-            System.out.println(userModel);
             return userModel;
     }
 
